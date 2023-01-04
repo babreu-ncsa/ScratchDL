@@ -1,11 +1,11 @@
 ###
-# File: metrics.py
+# File: data_loaders.py
 # Description: 
 # Author: Bruno R. de Abreu  |  babreu at illinois dot edu
 # National Center for Supercomputing Applications (NCSA)
 #  
-# Creation Date: Tuesday, 3rd January 2023, 2:37:43 pm
-# Last Modified: Tuesday, 3rd January 2023, 2:37:45 pm
+# Creation Date: Tuesday, 3rd January 2023, 3:00:37 pm
+# Last Modified: Tuesday, 3rd January 2023, 3:00:40 pm
 #  
 # Copyright (c) 2023, Bruno R. de Abreu, National Center for Supercomputing Applications.
 # All rights reserved.
@@ -23,42 +23,17 @@
 #          the software and its usage.
 ###
 
-import numpy as np
+import tensorflow as tf
 
-def get_accuracy(Y_hat, Y):
+def load_mnist_data():
     """
-    Given the predicted classes Y_hat and the true classes Y, computes the accuracy.
-
-    Arguments:
-        - Y_hat (1,m)-array: predicted classes
-        - Y (1,m)-array: true classes
+    Loads the MNIST dataset.
 
     Returns:
-        - accuracy: the accuracy of the prediction
+        - X_train: training set
+        - Y_train: training labels
+        - X_test: test set
+        - Y_test: test labels
     """
-    return np.sum(Y_hat == Y) / Y.shape[1]
-
-    
-
-def cross_entropy(Y_one_hot, Y_hat, epsilon=1e-12):
-    """
-    Computes cross entropy between the target Y_one_hot (encoded) and the output Y_hat (predicted).
-
-    Arguments:
-        - Y_one_hot: one-hot matrix of the target
-        - Y_hat: predicted output
-        - epsilon: small value to avoid division by zero
-
-    Returns:
-        - crent: cross entropy
-    """
-
-    # clip to avoid division by zero/one
-    Y_hat = np.clip(Y_hat, epsilon, 1. - epsilon)
-
-    # compute cross entropy
-    crent = np.sum(Y_one_hot * np.log(Y_hat), axis=0)
-    crent = -np.mean(crent)
-
-    return crent
-
+    (X_train, Y_train), (X_test, Y_test) = tf.keras.datasets.mnist.load_data()
+    return X_train, Y_train, X_test, Y_test

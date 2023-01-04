@@ -1,11 +1,11 @@
 ###
-# File: metrics.py
+# File: train.py
 # Description: 
 # Author: Bruno R. de Abreu  |  babreu at illinois dot edu
 # National Center for Supercomputing Applications (NCSA)
 #  
-# Creation Date: Tuesday, 3rd January 2023, 2:37:43 pm
-# Last Modified: Tuesday, 3rd January 2023, 2:37:45 pm
+# Creation Date: Tuesday, 3rd January 2023, 3:02:13 pm
+# Last Modified: Tuesday, 3rd January 2023, 3:02:15 pm
 #  
 # Copyright (c) 2023, Bruno R. de Abreu, National Center for Supercomputing Applications.
 # All rights reserved.
@@ -23,42 +23,18 @@
 #          the software and its usage.
 ###
 
-import numpy as np
+import data_loaders as dl
+import optimization as opt
+import matploblib.pyplot as plt
 
-def get_accuracy(Y_hat, Y):
-    """
-    Given the predicted classes Y_hat and the true classes Y, computes the accuracy.
+if __name__== "__main__":
+    # load mnist data
+    X_train, Y_train, X_test, Y_test = dl.load_mnist_data()
 
-    Arguments:
-        - Y_hat (1,m)-array: predicted classes
-        - Y (1,m)-array: true classes
+    # set network dimensions
+    layers_dims = [784, 256, 128, 64, 10]
+    max_iter = 500
+    alpha = 0.1
 
-    Returns:
-        - accuracy: the accuracy of the prediction
-    """
-    return np.sum(Y_hat == Y) / Y.shape[1]
-
-    
-
-def cross_entropy(Y_one_hot, Y_hat, epsilon=1e-12):
-    """
-    Computes cross entropy between the target Y_one_hot (encoded) and the output Y_hat (predicted).
-
-    Arguments:
-        - Y_one_hot: one-hot matrix of the target
-        - Y_hat: predicted output
-        - epsilon: small value to avoid division by zero
-
-    Returns:
-        - crent: cross entropy
-    """
-
-    # clip to avoid division by zero/one
-    Y_hat = np.clip(Y_hat, epsilon, 1. - epsilon)
-
-    # compute cross entropy
-    crent = np.sum(Y_one_hot * np.log(Y_hat), axis=0)
-    crent = -np.mean(crent)
-
-    return crent
-
+    # train network
+    params, acc, loss = opt.gradient_descent_optimization(X_train, y_train, layers_dims, max_iter, alpha)
