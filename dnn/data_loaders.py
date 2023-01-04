@@ -35,5 +35,14 @@ def load_mnist_data():
         - X_test: test set
         - Y_test: test labels
     """
+    # get it as it comes from keras
     (X_train, Y_train), (X_test, Y_test) = tf.keras.datasets.mnist.load_data()
-    return X_train, Y_train, X_test, Y_test
+
+    # preprocess
+    x_train = X_train.reshape(-1, 784).astype("float32") / 255.
+    x_test = X_test.reshape(-1,784).astype("float32") / 255.
+    y_train = Y_train.astype("int")
+    y_test = Y_test.astype("int")
+
+
+    return x_train, y_train, x_test, y_test

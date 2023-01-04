@@ -54,7 +54,7 @@ def one_hot(y):
     Returns:
         - one_hot: one-hot matrix
     """
-    one_hot = np.zeros((y.shape[0], y.max() + 1))
+    one_hot = np.zeros((y.shape[0], int(y.max()) + 1))
     one_hot[np.arange(y.shape[0]), y] = 1
 
     return one_hot.T

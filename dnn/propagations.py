@@ -24,6 +24,8 @@
 ###
 
 from utils import one_hot
+import activations as act
+import numpy as np
 
 def forward_prop(x, params):
     """
@@ -42,11 +44,11 @@ def forward_prop(x, params):
 
     for l in range(1,L):
         activations['Z'+str(l)] = np.dot(params['W'+str(l)], activations['A'+str(l-1)]) + params['b'+str(l)]
-        activations['A'+str(l)] = relu(activations['Z'+str(l)]) 
+        activations['A'+str(l)] = act.relu(activations['Z'+str(l)]) 
 
     # now the last layer
-    activations['Z'+str(L)] = np.dot(params['W'+str(l)], activations['A'+str(L-1)]) + params['b'+str(L)]
-    activations['A'+str(L)] = softmax(activations['Z'+str(L)])
+    activations['Z'+str(L)] = np.dot(params['W'+str(L)], activations['A'+str(L-1)]) + params['b'+str(L)]
+    activations['A'+str(L)] = act.softmax(activations['Z'+str(L)])
 
     return activations
 
@@ -75,6 +77,8 @@ def backward_prop(activations, params, y):
 
     # all the other layers
     for l in reversed(range(1,L)):
-        
+        derivs['dZ'+str(l)] = np.dot(params['W'+str(l+1)].T, derivs['dZ'+str(l+1)]) * act.deriv_relu(activations['Z'+str(l)])
+        grads['dW'+str(l)] = (1./m) * np.dot(derivs['dZ'+str(l)], activations['A'+str(l-1)].T)
+        grads['db'+str(l)] = (1./m) * np.sum(derivs['dZ'+str(l)], axis=1, keepdims=True)
 
-    return
+    return grads 

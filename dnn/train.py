@@ -25,16 +25,19 @@
 
 import data_loaders as dl
 import optimization as opt
-import matploblib.pyplot as plt
+#import matploblib.pyplot as plt
 
 if __name__== "__main__":
     # load mnist data
-    X_train, Y_train, X_test, Y_test = dl.load_mnist_data()
+    x_train, y_train, x_test, y_test = dl.load_mnist_data()
+    x_train = x_train.T
+    y_train = y_train.T
 
     # set network dimensions
-    layers_dims = [784, 256, 128, 64, 10]
+    #layers_dims = [784, 256, 128, 64, 10]
+    layers_dims = [784, 10, 10]
     max_iter = 500
     alpha = 0.1
 
     # train network
-    params, acc, loss = opt.gradient_descent_optimization(X_train, y_train, layers_dims, max_iter, alpha)
+    params, acc, loss = opt.gradient_descent_optimization(x_train, y_train, layers_dims, max_iter, alpha)

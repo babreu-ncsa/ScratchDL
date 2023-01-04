@@ -35,4 +35,4 @@ def get_predictions(AL):
     Returns:
         - index: the index of the highest activation
     """
-    return np.argmax(A, axis=0)
+    return np.argmax(AL, axis=0)

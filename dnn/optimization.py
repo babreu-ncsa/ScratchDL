@@ -25,6 +25,9 @@
 
 import utils
 import propagations as prop
+import predictions as pred
+import metrics
+import numpy as np
 
 def gradient_descent_optimization(X, Y, layers_size, max_iter, alpha):
     """
@@ -47,9 +50,9 @@ def gradient_descent_optimization(X, Y, layers_size, max_iter, alpha):
         # compute activations
         activations = prop.forward_prop(X, params)
         # make predictions
-        Y_hat = utils.get_predictions(activations["A" + str(L)])
+        Y_hat = pred.get_predictions(activations["A" + str(L)])
         # compute accuracy
-        accuracy = utils.get_accuracy(Y_hat, Y)
+        accuracy = metrics.get_accuracy(Y_hat, Y)
         accuracies.append(accuracy)
 
         # compute loss

@@ -23,6 +23,8 @@
 #          the software and its usage.
 ###
 
+import numpy as np
+
 def relu(x):
     """
     Computes the ReLU activation function.

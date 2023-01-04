@@ -36,8 +36,7 @@ def get_accuracy(Y_hat, Y):
     Returns:
         - accuracy: the accuracy of the prediction
     """
-    return np.sum(Y_hat == Y) / Y.shape[1]
-
+    return np.sum(Y_hat == Y) / Y.size
     
 
 def cross_entropy(Y_one_hot, Y_hat, epsilon=1e-12):
